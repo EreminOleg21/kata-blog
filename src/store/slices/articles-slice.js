@@ -5,7 +5,7 @@ const articlesSlice = createSlice({
   initialState: {
     articles: [],
     articlesCount: 0,
-    page: 1,
+    page: Number(localStorage.getItem('page')) || 1,
     limit: 5,
   },
   reducers: {

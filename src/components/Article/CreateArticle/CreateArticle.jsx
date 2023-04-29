@@ -36,7 +36,7 @@ function CreateArticle() {
       <Tag idx={idx} id={tag.id} value={tag.label} tagsLength={tags.length} />
     </li>
   ))
-
+    
   const {
     register,
     formState: { errors },
@@ -93,6 +93,7 @@ function CreateArticle() {
                 className={styles.input}
                 defaultValue={slug && article && article.title}
                 autoFocus
+                required
                 {...register('title', {
                   required: 'Title can`t be empty.',
                 })}

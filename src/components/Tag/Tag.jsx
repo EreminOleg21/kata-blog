@@ -12,6 +12,7 @@ const addBtn = classNames(styles.btn, styles.add)
 
 function Tag({ id, idx, tagsLength, value }) {
   const lastOne = idx === tagsLength - 1
+  const vals = value.length > 0 ? '' : 'disabled'
 
   const dispatch = useDispatch()
 
@@ -20,7 +21,8 @@ function Tag({ id, idx, tagsLength, value }) {
   }
 
   const onAdd = () => {
-    dispatch(addTag())
+      dispatch(addTag())
+      // console.log(valb.target.value)
   }
   const onLabelChange = (val) => {
     if (val !== undefined) {
@@ -42,15 +44,15 @@ function Tag({ id, idx, tagsLength, value }) {
         className={tagStyle}
         onChange={(e) => onLabelChange(e.target.value)}
       />
-      {tagsLength > 1 && (
+      {(tagsLength > 1) && (
         <button type="button" className={deleteBtn} onClick={onDelete}>
           Delete
         </button>
       )}
-      {lastOne && (
-        <button type="button" className={addBtn} onClick={onAdd}>
-          Add Tag
-        </button>
+      {lastOne  && ( 
+       <button type="button" className={addBtn} onClick={onAdd} disabled={vals}> 
+       Add Tag
+     </button>
       )}
     </>
   )

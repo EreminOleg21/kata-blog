@@ -9,12 +9,14 @@ import { CreateArticle } from '../Article/CreateArticle'
 import Layout from '../Layout/Layout'
 
 function App() {
+
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<ArticlesList />} />
-          <Route path="/articles" element={<ArticlesList />} />
+          <Route path="/articles/" element={<ArticlesList />} />
+          <Route path="/articles/page=?:" element={<ArticlesList />} />
           <Route path="/articles/:slug" element={<ArticleForm />} />
           <Route path="/articles/:slug/edit" element={<CreateArticle />} />
           <Route path="/new-article" element={<CreateArticle />} />

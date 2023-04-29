@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react'
-import { Alert, Pagination, Spin } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
+import { Alert, Pagination, Spin } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 import { fetchArticles } from '../../services/blogService'
 import { setLimit, setPage } from '../../store/slices/articles-slice'
@@ -15,6 +16,8 @@ function ArticlesList() {
   const { articles, articlesCount, page, limit } = useSelector((state) => state.articles)
   const status = useSelector((state) => state.status.status)
   const { token } = useSelector((state) => state.user.user)
+
+  const PG = Number(localStorage.getItem('page')) || page
 
   useEffect(() => {
     dispatch(goHome(false))
@@ -62,24 +65,34 @@ function ArticlesList() {
   const content = showContent(status)
 
   // eslint-disable-next-line no-shadow
-  const onPaginationChange = (page, limit) => {
+  const onPaginationChange = (page) => {
     dispatch(setPage(page))
+    const data = {
+      offset: (page - 1) * 5,
+      token: token || localStorage.token,
+      page: Number(localStorage.getItem('page'))
+    }
+    localStorage.setItem('page', page)
     dispatch(setLimit(limit))
+    dispatch(fetchArticles(data))
   }
+
+
+
 
   return (
     <div className={styles.main}>
-      <ul className={styles.list}>{content}</ul>
+      <ul className={styles.list}>{content}</ul> 
       {status !== 'error' && (
         <Pagination
           className={styles.pag}
           hideOnSinglePage
-          current={page}
+          current={PG}
           pageSize={limit}
           pageSizeOptions={[5, 10, 20, 40, 100, 500]}
           total={articlesCount}
           /* eslint-disable-next-line no-shadow */
-          onChange={(page, pageSize) => onPaginationChange(page, pageSize)}
+          onChange={(PG, pageSize) => onPaginationChange(PG, pageSize)}
         />
       )}
     </div>
